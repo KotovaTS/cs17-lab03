@@ -46,6 +46,34 @@ void test_temperature_input() {
     assert (t.scale == Fahrenheit);
 
 }
+temperature convert (const temperature & from, Scale scale){
+    double K;
+    switch (from.scale) {
+    case Kelvin:
+        K = from.value;
+        break;
+    case Celsius:
+        K = from.value + 273.15;
+        break;
+    case Fahrenheit:
+        K = (from.value + 459.67) / 1.8;
+        break;
+    }
+    temperature result;
+    result.scale = scale;
+    switch (scale){
+    case Kelvin :
+        result.value = K;
+        break;
+    case Celsius :
+        result.value = K-273.15;
+        break;
+    case Fahrenheit :
+        result.value = (K*1.8)-459.67;
+        break;
+    }
+    return result;
+};
 int
 main() {
     size_t number_count;
