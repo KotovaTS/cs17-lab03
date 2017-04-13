@@ -74,6 +74,14 @@ temperature convert (const temperature & from, Scale scale){
     }
     return result;
 };
+
+bool operator < (temperature & lhs, temperature & rhs){
+    temperature t;
+    t = convert ( lhs, rhs.scale);
+    return t.value < rhs.value;
+}
+
+
 int
 main() {
     size_t number_count;
