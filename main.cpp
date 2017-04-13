@@ -81,7 +81,6 @@ bool operator < (temperature & lhs, temperature & rhs){
     return t.value < rhs.value;
 }
 
-
 int
 main() {
     size_t number_count;
@@ -89,7 +88,7 @@ main() {
     cin >> number_count;
 
     cerr << "Enter numbers: ";
-    vector<double> numbers(number_count);
+    vector<temperature> numbers(number_count);
     for (size_t i = 0; i < number_count; i++) {
         cin >> numbers[i];
     }
@@ -98,20 +97,22 @@ main() {
     cerr << "Enter column count: ";
     cin >> column_count;
 
-    double min = numbers[0];
-    double max = numbers[0];
-    for (double number : numbers) {
+    temperature min = numbers[0];
+    temperature max = numbers[0];
+    for (temperature number : numbers) {
         if (number < min) {
             min = number;
         }
-        if (number > max) {
+        if (max < number) {
             max = number;
         }
     }
-
+    max = convert (max, min.scale);
     vector<size_t> counts(column_count);
-    for (double number : numbers) {
-        size_t column = (size_t)((number - min) / (max - min) * column_count);
+    for (temperature number : numbers) {
+        number = convert (number, min.scale);
+        size_t column = (size_t)((number.value - min.value) / (max.value - min.value) *
+                column_count);
         if (column == column_count) {
             column--;
         }
